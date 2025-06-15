@@ -1,4 +1,4 @@
-// src/App.tsx
+
 import React, { useState } from 'react'
 import {
   QueryClient,
@@ -8,10 +8,10 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { useDebounce } from 'use-debounce'
-import SearchBox from './components/SearchBox'
-import NoteModal from './components/NoteModal'
-import NoteList from './components/NoteList'
-import Pagination from './components/Pagination'
+import SearchBox from './components/searchBox/SearchBox'
+import NoteModal from './components/NoteModal/NoteModal'
+import NoteList from './components/NoteList/NoteList'
+import Pagination from './components/Pagination/Pagination'
 import { fetchNotes, createNote, deleteNote } from './services/noteService'
 import css from './App.module.css'
 

@@ -1,7 +1,7 @@
 // src/components/NoteModal.tsx
 import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import NoteForm from './NoteForm'
+import NoteForm from '../NoteForm/NoteForm'
 import css from './NoteModal.module.css'
 
 interface Props {

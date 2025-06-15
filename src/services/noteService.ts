@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { Note } from '../types/note';
+import { type Note } from '../types/note';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_NOTEHUB_BASE_URL || 'https://api.example.com',
