@@ -9,10 +9,15 @@ interface Props {
   search: string
 }
 
+interface FetchNotesResponse {
+  notes: Note[]
+  total: number
+}
+
 const NoteList: React.FC<Props> = ({ page, search }) => {
   const queryClient = useQueryClient()
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery<FetchNotesResponse>({
     queryKey: ['notes', page, search],
     queryFn: () => fetchNotes({ page, perPage: 12, search }),
     keepPreviousData: true,
