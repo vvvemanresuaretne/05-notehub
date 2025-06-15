@@ -38,8 +38,8 @@ const NoteList: React.FC<Props> = ({ page, search }) => {
 
   if (isLoading) return <p className={css.loading}>Завантаження нотаток...</p>
   if (isError) return <p className={css.error}>Помилка при завантаженні нотаток.</p>
-  if (!data || data.notes.length === 0)
-    return <p className={css.empty}>Нотаток не знайдено.</p>
+  if (!data || !Array.isArray(data.notes) || data.notes.length === 0)
+  return <p className={css.empty}>Нотаток не знайдено.</p>
 
   return (
     <ul className={css.list}>

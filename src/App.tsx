@@ -58,7 +58,7 @@ const AppContent: React.FC = () => {
     <div className={css.container}>
       <h1 className={css.title}>NoteHub</h1>
 
-      <SearchBox value={search} onChange={setSearch} />
+      <SearchBox search={search} onSearch={setSearch} />
       <button onClick={() => setModalOpen(true)} className={css.addButton}>
         Add Note
       </button>

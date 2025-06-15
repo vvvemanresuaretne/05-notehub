@@ -11,8 +11,8 @@ interface Props {
 }
 
 const Pagination: React.FC<Props> = ({ page, onPageChange, totalItems, perPage }) => {
-  const pageCount = Math.ceil(totalItems / perPage)
-  if (pageCount <= 1) return null 
+  if (!totalItems || !perPage || perPage <= 0) return null
+const pageCount = Math.ceil(totalItems / perPage)
 
   return (
     <ReactPaginate
