@@ -14,16 +14,37 @@ const modalRoot = document.getElementById('modal-root')
 
 const NoteModal: React.FC<Props> = ({ isOpen, onClose, onCreate }) => {
   useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
-    if (isOpen) window.addEventListener('keydown', handleEsc)
-    return () => window.removeEventListener('keydown', handleEsc)
+    if (!isOpen) return
+
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+
+    document.addEventListener('keydown', handleEsc)
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.removeEventListener('keydown', handleEsc)
+      document.body.style.overflow = 'auto'
+    }
   }, [isOpen, onClose])
 
   if (!isOpen || !modalRoot) return null
 
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose()
+    }
+  }
+
   return ReactDOM.createPortal(
-    <div className={css.backdrop} role="dialog" aria-modal="true" onClick={onClose}>
-      <div className={css.modal} onClick={(e) => e.stopPropagation()}>
+    <div
+      className={css.backdrop}
+      role="dialog"
+      aria-modal="true"
+      onClick={handleBackdropClick}
+    >
+      <div className={css.modal}>
         <NoteForm onSubmit={onCreate} onCancel={onClose} />
       </div>
     </div>,

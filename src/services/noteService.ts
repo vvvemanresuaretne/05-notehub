@@ -32,10 +32,15 @@ export async function fetchNotes({
   return res.data;
 }
 
-export async function createNote(data: { title: string; content: string }): Promise<Note> {
-  const res: AxiosResponse<Note> = await api.post('/notes', data);
-  return res.data;
+export async function createNote(data: {
+  title: string
+  content: string
+  tag: string
+}): Promise<Note> {
+  const res: AxiosResponse<Note> = await api.post('/notes', data)
+  return res.data
 }
+
 
 export async function deleteNote(id: string): Promise<{ success: boolean; id: string }> {
   const res: AxiosResponse<{ success: boolean; id: string }> = await api.delete(`/notes/${id}`);

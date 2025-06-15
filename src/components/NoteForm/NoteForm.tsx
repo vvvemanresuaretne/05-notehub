@@ -9,12 +9,6 @@ interface Props {
   onCancel: () => void
 }
 
-interface Values {
-  title: string
-  content: string
-  tag: string
-}
-
 const validationSchema = Yup.object({
   title: Yup.string()
     .min(3, 'Мінімум 3 символи')
@@ -26,7 +20,7 @@ const validationSchema = Yup.object({
     .required('Обов’язкове поле'),
 })
 
-const initialValues: Values = { title: '', content: '', tag: 'Todo' }
+const initialValues = { title: '', content: '', tag: 'Todo' }
 
 const NoteForm: React.FC<Props> = ({ onSubmit, onCancel }) => (
   <Formik
