@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   QueryClient,
   QueryClientProvider,
@@ -20,10 +19,15 @@ const queryClient = new QueryClient()
 const AppContent: React.FC = () => {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const [debouncedSearch] = useDebounce(search, 500) // debounce на 500мс
+  const [debouncedSearch] = useDebounce(search, 500)
   const [isModalOpen, setModalOpen] = useState(false)
-  const queryClient = useQueryClient()
+  const reactQueryClient = useQueryClient()
   const perPage = 12
+
+  // Сброс страницы при новом поисковом запросе
+  useEffect(() => {
+    setPage(1)
+  }, [debouncedSearch])
 
   const { data, isLoading, isError } = useQuery(
     ['notes', page, debouncedSearch],
@@ -33,54 +37,4 @@ const AppContent: React.FC = () => {
     }
   )
 
-  const createMutation = useMutation(createNote, {
-    onSuccess: () => queryClient.invalidateQueries(['notes']),
-  })
-
-  const deleteMutation = useMutation(deleteNote, {
-    onSuccess: () => queryClient.invalidateQueries(['notes']),
-  })
-
-  const handleCreate = (title: string, content: string, tag: string) => {
-    createMutation.mutate({ title, content, tags: [tag] }) // tags: масив
-    setModalOpen(false)
-  }
-
-  return (
-    <>
-      <header className={css.header}>
-        <SearchBox search={search} onSearch={setSearch} />
-        <button className={css.button} onClick={() => setModalOpen(true)}>
-          Create note +
-        </button>
-      </header>
-
-      <main className={css.main}>
-        <NoteList
-          page={page}
-          search={debouncedSearch}
-        />
-        <Pagination
-          page={page}
-          setPage={setPage}
-          total={data?.total || 0}
-          perPage={perPage}
-        />
-      </main>
-
-      <NoteModal
-        isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
-        onCreate={handleCreate}
-      />
-    </>
-  )
-}
-
-const App: React.FC = () => (
-  <QueryClientProvider client={queryClient}>
-    <AppContent />
-  </QueryClientProvider>
-)
-
-export default App
+  const createMutation = use

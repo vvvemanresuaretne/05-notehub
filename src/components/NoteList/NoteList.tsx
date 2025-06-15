@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { fetchNotes, deleteNote } from '../services/noteService'
+import { fetchNotes, deleteNote } from '../../services/noteService'
 import { Note } from '../types/'
 import css from './NoteList.module.css'
 
