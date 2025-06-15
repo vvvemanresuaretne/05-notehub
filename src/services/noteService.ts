@@ -2,7 +2,7 @@ import axios, { type AxiosResponse } from 'axios';
 import { type Note } from '../types/note';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_NOTEHUB_BASE_URL || 'https://api.example.com',
+  baseURL: import.meta.env.VITE_NOTEHUB_BASE_URL || 'https://api.example.comhttps://notehub-public.goit.study/api/docs',
   headers: {
     Authorization: `Bearer ${import.meta.env.VITE_NOTEHUB_TOKEN}`,
   },
