@@ -14,7 +14,9 @@ import NoteList from './components/NoteList/NoteList'
 import Pagination from './components/Pagination/Pagination'
 
 import { fetchNotes, createNote, deleteNote } from './services/noteService'
-import css from './App.module.css'
+import type { FetchNotesResponse } from './types/note'
+
+import css from './components/App/App.module.css' // <== виправлено
 
 const queryClient = new QueryClient()
 
@@ -31,7 +33,7 @@ const AppContent: React.FC = () => {
     setPage(1)
   }, [debouncedSearch])
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery<FetchNotesResponse>({
     queryKey: ['notes', page, debouncedSearch],
     queryFn: () => fetchNotes({ page, perPage, search: debouncedSearch }),
     keepPreviousData: true,

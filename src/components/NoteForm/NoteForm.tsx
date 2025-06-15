@@ -2,7 +2,7 @@
 import React from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import css from './NoteForm.module.css'
+import css from '../NoteForm/NoteForm.module.css'
 
 interface Props {
   onSubmit: (title: string, content: string, tag: string) => void

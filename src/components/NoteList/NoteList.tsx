@@ -12,13 +12,11 @@ interface Props {
 const NoteList: React.FC<Props> = ({ page, search }) => {
   const queryClient = useQueryClient()
 
-  const { data, isLoading, isError } = useQuery(
-    ['notes', page, search],
-    () => fetchNotes({ page, perPage: 12, search }),
-    {
-      keepPreviousData: true,
-    }
-  )
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['notes', page, search],
+    queryFn: () => fetchNotes({ page, perPage: 12, search }),
+    keepPreviousData: true,
+  })
 
   const handleDelete = async (id: string) => {
     const confirmed = window.confirm('Ви впевнені, що хочете видалити цю нотатку?')
