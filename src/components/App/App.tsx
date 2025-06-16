@@ -3,12 +3,12 @@ import { useDebounce } from 'use-debounce';
 import { useQuery } from '@tanstack/react-query';
 import toast, { Toaster } from 'react-hot-toast';
 
-import SearchBox from '../lol';
+import SearchBox from '../SearchBox/SearchBox';
 import NoteList from '../NoteList/NoteList';
 import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import NoteModal from '../NoteModal/NoteModal';
-import Pagination from '../lol';
+import Pagination from '../Pagination/Pagination';
 
 import { fetchNotes } from '../../services/noteService';
 import type { Note } from '../../types/note';
