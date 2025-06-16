@@ -10,3 +10,11 @@ export interface NewNoteData {
   content?: string;
   tag: 'Todo' | 'Work' | 'Personal' | 'Meeting' | 'Shopping';
 }
+
+
+
+
+
+
+
+

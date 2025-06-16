@@ -90,3 +90,14 @@ export const deleteNote = async (id: number): Promise<Note> => {
     throw new Error('Failed to delete note.');
   }
 };
+
+
+
+
+
+
+
+
+
+
+

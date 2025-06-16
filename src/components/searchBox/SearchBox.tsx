@@ -32,3 +32,9 @@ const SearchBox = ({ value, onChange }: SearchBoxProps) => {
 };
 
 export default SearchBox;
+
+
+
+
+
+

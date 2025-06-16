@@ -49,3 +49,11 @@ export default function NoteList({ notes, onSelect }: NoteListProps) {
     </ul>
   );
 }
+
+
+
+
+
+
+
+
