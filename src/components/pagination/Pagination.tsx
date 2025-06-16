@@ -1,4 +1,3 @@
-
 import React from 'react'
 import ReactPaginate from 'react-paginate'
 import css from './Pagination.module.css'
@@ -12,7 +11,7 @@ interface Props {
 
 const Pagination: React.FC<Props> = ({ page, onPageChange, totalItems, perPage }) => {
   if (!totalItems || !perPage || perPage <= 0) return null
-const pageCount = Math.ceil(totalItems / perPage)
+  const pageCount = Math.ceil(totalItems / perPage)
 
   return (
     <ReactPaginate

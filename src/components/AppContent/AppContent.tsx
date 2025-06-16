@@ -10,7 +10,7 @@ const AppContent: React.FC = () => {
 
   const createMutation = useMutation(createNote, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['notes']) // обновляем заметки
+      queryClient.invalidateQueries(['notes']) 
     },
   })
 

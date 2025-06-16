@@ -1,22 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider, useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useDebounce } from 'use-debounce'
 
-import SearchBox from './components/searchBox/SearchBox'
-import NoteModal from './components/NoteModal/NoteModal'
-import NoteList from './components/NoteList/NoteList'
+import SearchBox from './components/SearchBox/SearchBox'
 import Pagination from './components/Pagination/Pagination'
+import NoteList from './components/NoteList/NoteList'
 
 import { fetchNotes, createNote, deleteNote } from './services/noteService'
 import type { FetchNotesResponse } from './types/note'
-
-import css from './components/App/App.module.css' // <== виправлено
 
 const queryClient = new QueryClient()
 
@@ -24,10 +15,10 @@ const AppContent: React.FC = () => {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [debouncedSearch] = useDebounce(search, 500)
-  const [isModalOpen, setModalOpen] = useState(false)
+  const [noteContent, setNoteContent] = useState('')
+  const queryClient = useQueryClient()
 
-  const perPage = 12
-  const queryClientInstance = useQueryClient()
+  const perPage = 10
 
   useEffect(() => {
     setPage(1)
@@ -39,67 +30,71 @@ const AppContent: React.FC = () => {
     keepPreviousData: true,
   })
 
-  const createMutation = useMutation({
-    mutationFn: createNote,
+  const createMutation = useMutation(createNote, {
     onSuccess: () => {
-      queryClientInstance.invalidateQueries({ queryKey: ['notes'] })
-      setModalOpen(false)
+      queryClient.invalidateQueries(['notes'])
+      setNoteContent('')
     },
   })
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteNote,
+  const deleteMutation = useMutation(deleteNote, {
     onSuccess: () => {
-      queryClientInstance.invalidateQueries({ queryKey: ['notes'] })
+      queryClient.invalidateQueries(['notes'])
     },
   })
+
+  const handleCreate = (content: string) => {
+    createMutation.mutate({
+      title: content.substring(0, 20) || 'Без назви',
+      content,
+      tag: 'Todo',
+    })
+  }
 
   return (
-    <div className={css.container}>
-      <h1 className={css.title}>NoteHub</h1>
+    <div style={{ maxWidth: 800, margin: '0 auto', padding: 20 }}>
+      <h1>NoteHub</h1>
 
       <SearchBox search={search} onSearch={setSearch} />
-      <button onClick={() => setModalOpen(true)} className={css.addButton}>
-        Add Note
-      </button>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          if (noteContent.trim()) {
+            handleCreate(noteContent.trim())
+          }
+        }}
+      >
+        <input
+          value={noteContent}
+          onChange={(e) => setNoteContent(e.target.value)}
+          placeholder="New note content"
+          required
+        />
+        <button type="submit" disabled={createMutation.isLoading}>
+          Add Note
+        </button>
+      </form>
 
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error loading notes.</p>}
 
       {data && (
         <>
-          <NoteList notes={data.notes} onDelete={deleteMutation.mutate} />
+          <NoteList notes={data.notes} onDelete={(id) => deleteMutation.mutate(id)} />
           <Pagination
-            currentPage={page}
-            totalPages={Math.ceil(data.total / perPage)}
+            page={page}
             onPageChange={setPage}
+            totalItems={data.total}
+            perPage={perPage}
           />
         </>
-      )}
-
-      {isModalOpen && (
-        <NoteModal onClose={() => setModalOpen(false)}>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              const form = e.target as HTMLFormElement
-              const input = form.elements.namedItem('note') as HTMLInputElement
-              if (input.value) {
-                createMutation.mutate({ content: input.value })
-                form.reset()
-              }
-            }}
-          >
-            <input type="text" name="note" required />
-            <button type="submit">Save</button>
-          </form>
-        </NoteModal>
       )}
     </div>
   )
 }
 
-const App = () => (
+const App: React.FC = () => (
   <QueryClientProvider client={queryClient}>
     <AppContent />
   </QueryClientProvider>

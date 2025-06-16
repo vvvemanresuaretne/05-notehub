@@ -1,8 +1,7 @@
-// src/components/NoteForm.tsx
 import React from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import css from '../NoteForm/NoteForm.module.css'
+import css from './NoteForm.module.css'
 
 interface Props {
   onSubmit: (title: string, content: string, tag: string) => void
@@ -11,13 +10,13 @@ interface Props {
 
 const validationSchema = Yup.object({
   title: Yup.string()
-    .min(3, 'Мінімум 3 символи')
-    .max(50, 'Максимум 50 символів')
-    .required('Обов’язкове поле'),
-  content: Yup.string().max(500, 'Максимум 500 символів'),
+    .min(3, 'Минимум 3 символа')
+    .max(50, 'Максимум 50 символов')
+    .required('Обязательное поле'),
+  content: Yup.string().max(500, 'Максимум 500 символов'),
   tag: Yup.string()
     .oneOf(['Todo', 'Work', 'Personal', 'Meeting', 'Shopping'])
-    .required('Обов’язкове поле'),
+    .required('Обязательное поле'),
 })
 
 const initialValues = { title: '', content: '', tag: 'Todo' }
