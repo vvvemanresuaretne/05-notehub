@@ -1,11 +1,12 @@
 export interface Note {
-  id: string
-  title: string
-  content: string
-  tags?: string[]
+  id: number;
+  title: string;
+  content: string;
+  tag: 'Todo' | 'Work' | 'Personal' | 'Meeting' | 'Shopping';
 }
 
-export interface FetchNotesResponse {
-  notes: Note[]
-  total: number
+export interface NewNoteData {
+  title: string;
+  content?: string;
+  tag: 'Todo' | 'Work' | 'Personal' | 'Meeting' | 'Shopping';
 }
